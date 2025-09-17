@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Enab Kholif — Resume (Glassy)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- jsPDF & html-docx-js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.min.js"></script>
+   <link rel="stylesheet" href="style.css">
+   <script src="function.js"></script>
+
+</head>
+<body>
+
+  <!-- NAV (small icons) -->
+  <nav>
+    <div class="icon-btn" onclick="toggleDropdown(this, event)" title="Theme">
+      <i class="fas fa-palette"></i>
+      <div class="dropdown">
+        <div class="section-title">Themes</div>
+        <button onclick="setTheme('light')">Light (default)</button>
+        <button onclick="setTheme('dark')">Dark</button>
+        <button onclick="setTheme('green')">Green (soft)</button>
+        <button onclick="setTheme('blue')">Blue (soft)</button>
+      </div>
+    </div>
+
+    <div class="icon-btn" onclick="toggleDropdown(this, event)" title="Font">
+      <i class="fas fa-font"></i>
+      <div class="dropdown">
+        <div class="section-title">Fonts</div>
+        <button onclick="setFont('sans')">Sans (system)</button>
+        <button onclick="setFont('serif')">Serif</button>
+        <button onclick="setFont('mono')">Mono</button>
+      </div>
+    </div>
+
+    <div class="icon-btn" onclick="toggleDropdown(this, event)" title="Download">
+      <i class="fas fa-download"></i>
+      <div class="dropdown">
+        <div class="section-title">Resume</div>
+        <button onclick="downloadHTML('resume', 'Enab_Kholif_Resume.html')">Download HTML</button>
+        <button onclick="downloadDOC('resume', 'Enab_Kholif_Resume.docx')">Download DOCX</button>
+        <button onclick="downloadPDF('resume', 'Enab_Kholif_Resume.pdf')">Download PDF</button>
+
+        <div class="section-title" style="margin-top:6px;">Cover Letter</div>
+        <button onclick="downloadHTML('cover-letter', 'Enab_Kholif_CoverLetter.html')">Download HTML</button>
+        <button onclick="downloadDOC('cover-letter', 'Enab_Kholif_CoverLetter.docx')">Download DOCX</button>
+        <button onclick="downloadPDF('cover-letter', 'Enab_Kholif_CoverLetter.pdf')">Download PDF</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page -->
+  <div class="page">
+    <!-- Header -->
+    <div class="header">
+      <div class="avatar">EK</div>
+
+      <div class="profile-meta">
+        <h1>Enab Kholif</h1>
+        <p class="muted">Aspiring Full Stack Developer | Java Developer</p>
+        <div class="contact-row">
+          <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span> Dortmund, Germany</span></div>
+          <div class="contact-item"><i class="fas fa-phone"></i><span>+49 (152) 1363-3281</span></div>
+          <div class="contact-item"><i class="fas fa-envelope"></i><span>enab.kholif@gmail.com</span></div>
+         <div class="contact-item"><i class="fas fa-globe"></i><span>www.enabkholif.com</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <!-- LEFT column -->
+      <div>
+        <!-- Contact / Quick -->
+        <div class="card">
+          <h2>Contact Info</h2>
+          <p class="muted">Reachable & available for remote or on-site opportunities.</p>
+          <div style="margin-top:10px;">
+            <div class="muted"><i class="fas fa-map-marker-alt"></i> Dortmund, Germany</div>
+            <div class="muted"><i class="fas fa-phone"></i> +49 (152) 1363-3281</div>
+            <div class="muted"><i class="fas fa-envelope"></i> enab.kholif@gmail.com</div>
+            <div class="muted"><i class="fab fa-linkedin"></i> linkedin.com/in/enabkholif</div>
+            <div class="muted"><i class="fab fa-github"></i> github.com/enabkholif</div>
+          </div>
+        </div>
+
+        <!-- Technical Skills -->
+        <div class="card" aria-labelledby="technical-skills">
+          <h2 id="technical-skills">Technical Skills</h2>
+
+          <h3>Programming Languages</h3>
+          <div class="skills">
+            <div class="chip">Java SE</div>
+            <div class="chip">Java EE</div>
+            <div class="chip">C#</div>
+            <div class="chip">JavaScript</div>
+          </div>
+
+          <h3 style="margin-top:12px">Frameworks & Libraries</h3>
+          <div class="skills">
+            <div class="chip">Spring Boot</div>
+            <div class="chip">Thymeleaf</div>
+            <div class="chip">jQuery</div>
+          </div>
+
+          <h3 style="margin-top:12px">Web & Tools</h3>
+          <div class="skills" style="margin-top:8px;">
+            <div class="chip">HTML</div>
+            <div class="chip">CSS</div>
+            <div class="chip">Docker</div>
+            <div class="chip">Jenkins</div>
+            <div class="chip">Git</div>
+          </div>
+
+          <div class="divider"></div>
+          <h3>Technical Aptitude</h3>
+          <p class="muted">High technical competency (90%). Rapid learner with strong visual comprehension of systems and code structure.</p>
+        </div>
+
+        <!-- Languages -->
+        <div class="card">
+          <h2>Languages</h2>
+          <ul>
+            <li class="icon-li"><i class="fas fa-language"></i> English — Professional Proficiency</li>
+            <li class="icon-li"><i class="fas fa-language"></i> Arabic — Native</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- RIGHT column (main) -->
+      <div>
+        <!-- Resume main (this whole block has id=resume for downloads) -->
+        <div id="resume">
+          <div class="card">
+            <h2>Professional Summary</h2>
+            <p>
+              Aspiring Full Stack Developer | Java Developer with a strong foundation in problem-solving, analytical thinking, and teamwork, bolstered by over 9 years of proven experience in accounting, office management, and customer service.
+              A highly adaptable and self-directed learner, as evidenced by a superior technical competency score (90%) and a strong internal drive for academic and professional growth.
+              Excels in independent, focused work environments (Solitary learning style) and quickly comprehends new concepts through visual aids and diagrams (Visual learning style).
+              Effective at mentoring, coordinating within multicultural teams, and proactively seeking help to ensure success.
+            </p>
+            <p class="muted"><strong>Key strengths:</strong> Rapid learning, analytical problem solving, visual comprehension, leadership, teamwork, attention to detail.</p>
+          </div>
+
+          <div class="card">
+            <h2>Key Strengths & Skills</h2>
+
+            <h3>Technical Potential & Learning Aptitude</h3>
+            <ul>
+              <li class="icon-li"><i class="fas fa-bolt"></i> <strong>Rapid Learner:</strong> Adapts quickly to new tools and languages.</li>
+              <li class="icon-li"><i class="fas fa-cogs"></i> <strong>Analytical Problem Solver:</strong> Systematic approach to debugging and design.</li>
+              <li class="icon-li"><i class="fas fa-user-check"></i> <strong>Independent & Focused:</strong> Strong productivity when working autonomously (Solitary learner).</li>
+              <li class="icon-li"><i class="fas fa-eye"></i> <strong>Visual Comprehension:</strong> Learns effectively with diagrams, flowcharts and architecture maps.</li>
+            </ul>
+
+            <h3>Professional Soft Skills</h3>
+            <ul>
+              <li class="icon-li"><i class="fas fa-users"></i> Teamwork & Collaboration</li>
+              <li class="icon-li"><i class="fas fa-user-tie"></i> Leadership & Mentoring</li>
+              <li class="icon-li"><i class="fas fa-comments"></i> Communication & Professionalism</li>
+              <li class="icon-li"><i class="fas fa-tasks"></i> Organization & Attention to Detail</li>
+              <li class="icon-li"><i class="fas fa-clock"></i> Time Management & Low Procrastination</li>
+              <li class="icon-li"><i class="fas fa-random"></i> Adaptability & Self-Direction</li>
+              <li class="icon-li"><i class="fas fa-globe"></i> Respect for Diverse Cultures and Ages</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h2>Relevant Professional Experience</h2>
+            <div class="timeline">
+              <div class="item">
+                <h3>Field Service Technician — Bell Canada</h3>
+                <div class="date">Feb 2015 — 2022 | Toronto</div>
+                <ul>
+                  <li>Mentored new hires and supported managers in team coordination, enhancing group performance and knowledge sharing.</li>
+                  <li>Interacted professionally with a diverse client base, demonstrating strong verbal communication and customer service skills.</li>
+                  <li>Analyzed and resolved technical issues efficiently, utilizing a methodical and logical approach to problem-solving.</li>
+                  <li>Recognized as a top-performing technician in the region for consistent reliability and quality of work.</li>
+                </ul>
+              </div>
+
+              <div class="item">
+                <h3>Office Manager / Accounting Coordinator — Speed Transport</h3>
+                <div class="date">2006 — 2013 | Alexandria, Egypt</div>
+                <ul>
+                  <li>Coordinated with clients and team members to ensure project satisfaction and seamless workflow.</li>
+                  <li>Managed the complete document life cycle, emphasizing meticulous attention to detail and systematic organization.</li>
+                  <li>Oversaw financial reporting and auditing preparation, requiring high accuracy and analytical review.</li>
+                </ul>
+              </div>
+
+              <div class="item">
+                <h3>Accounting Clerk — MTS Logistics</h3>
+                <div class="date">2001 — 2005 | Alexandria, Egypt</div>
+                <ul>
+                  <li>Maintained highly organized and accurate financial records and filing systems.</li>
+                  <li>Assisted senior accountants with data entry and reconciliation tasks, demonstrating reliability and a keen eye for detail.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Education & Training</h2>
+            <div class="timeline">
+              <div class="item">
+                <h3>Bachelor of Science in Accounting</h3>
+                <div class="date">2003 — Alexandria University, Egypt</div>
+              </div>
+
+              <div class="item">
+                <h3>Technical Training & Online Courses</h3>
+                <ul>
+                  <li>Java SE & Java EE</li>
+                  <li>Spring Boot & Thymeleaf</li>
+                  <li>DevOps: Docker, Jenkins, Git</li>
+                  <li>Web Development: HTML, CSS, JavaScript, jQuery</li>
+                  <li>C# Programming</li>
+                </ul>
+              </div>
+
+              <div class="item">
+                <h3>SmarterMeasure Learning Readiness Assessment</h3>
+                <div class="date">2020</div>
+                <p class="muted">Scored in the top percentiles — Technical Competency (90%), Life Factors (83%), Personal Attributes (81%).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Additional Training & Development</h2>
+            <ul>
+              <li>Working Capital Management & Capital Budgeting — American University, Alexandria, 2007</li>
+              <li>Audit & Financial Accounting (CPA material) — Alexandria University, 2004</li>
+              <li>ELT English Accounting Program — Toronto, 2014</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Cover letter (separate block with id=cover-letter) -->
+        <div id="cover-letter" class="card" style="margin-top:20px;">
+          <h2>Cover Letter</h2>
+          <p>Date: <span id="cover-date"></span></p>
+
+          <p>
+            I am Enab Kholif, an aspiring Full Stack Developer and Java Developer with a strong background in problem-solving,
+            analytical thinking, and teamwork. With over nine years of professional experience in accounting, office management,
+            and customer service — combined with focused technical training in Java SE/EE, Spring Boot, DevOps tools (Docker, Jenkins),
+            and web technologies — I bring a unique blend of practical experience and rapid technical learning capability.
+          </p>
+
+          <p>
+            At Bell Canada I mentored new hires, coordinated with managers, and consistently delivered high-quality technical service to customers.
+            Previously, my roles in accounting and office management demanded accuracy, organization, and process improvement — skills I now apply
+            to software development through methodical debugging, attention to detail, and logical system design.
+          </p>
+
+          <p>
+            I excel in solitary and visually-driven learning environments, quickly grasping concepts presented through diagrams and architecture maps.
+            I am fluent in English and Arabic, comfortable mentoring and collaborating inside multicultural teams, and motivated to continue growing
+            professionally in software engineering roles.
+          </p>
+
+          <p>
+            I would welcome the opportunity to discuss how my background, technical aptitude (90% technical competency), and commitment to continuous learning
+            can contribute to your team. Thank you for considering my application — my resume is attached and I look forward to hearing from you.
+          </p>
+
+        </div>
+
+        <footer>
+          © 2025 Enab Kholif — Designed with glassy UI
+        </footer>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>
