@@ -1,286 +1,472 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Enab Kholif — Resume (Glassy)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enab Kholif - Full Stack Developer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #5b8fb9;
+            --secondary: #6da4c9;
+            --accent: #7db9e6;
+            --light: #f0f8ff;
+            --dark: #2c3e50;
+            --text: #333;
+            --background: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-radius: 16px;
+        }
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        .theme-dark {
+            --primary: #6da4c9;
+            --secondary: #5b8fb9;
+            --accent: #7db9e6;
+            --light: #1a1a2e;
+            --dark: #e6e6e6;
+            --text: #f0f0f0;
+            --background: #16213e;
+            --card-bg: rgba(26, 26, 46, 0.9);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
 
-  <!-- jsPDF & html-docx-js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.min.js"></script>
-   <link rel="stylesheet" href="style.css">
-   <script src="function.js"></script>
+        .theme-warm {
+            --primary: #d4a574;
+            --secondary: #e6b98d;
+            --accent: #f0c9a6;
+            --light: #fdf6e3;
+            --dark: #5c4b37;
+            --text: #5c4b37;
+            --background: #faf3e0;
+            --card-bg: rgba(253, 246, 227, 0.9);
+            --shadow: 0 8px 30px rgba(92, 75, 55, 0.1);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: linear-gradient(135deg, var(--light) 0%, var(--background) 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .theme-selector, .download-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .theme-selector:hover, .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .resume {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+        }
+
+        .name {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .title {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .content {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent);
+            font-weight: 600;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .skill-category {
+            margin-bottom: 15px;
+        }
+
+        .skill-category h4 {
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+
+        .skill-list {
+            list-style-type: none;
+        }
+
+        .skill-list li {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .skill-list li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .experience-item, .project-item {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .item-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .item-date {
+            color: var(--primary);
+            font-style: italic;
+        }
+
+        .item-subtitle {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .item-details {
+            list-style-type: none;
+        }
+
+        .item-details li {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .item-details li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .project-highlights {
+            background: rgba(123, 185, 230, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .project-highlights li::before {
+            color: var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-
-  <!-- NAV (small icons) -->
-  <nav>
-    <div class="icon-btn" onclick="toggleDropdown(this, event)" title="Theme">
-      <i class="fas fa-palette"></i>
-      <div class="dropdown">
-        <div class="section-title">Themes</div>
-        <button onclick="setTheme('light')">Light (default)</button>
-        <button onclick="setTheme('dark')">Dark</button>
-        <button onclick="setTheme('green')">Green (soft)</button>
-        <button onclick="setTheme('blue')">Blue (soft)</button>
-      </div>
-    </div>
-
-    <div class="icon-btn" onclick="toggleDropdown(this, event)" title="Font">
-      <i class="fas fa-font"></i>
-      <div class="dropdown">
-        <div class="section-title">Fonts</div>
-        <button onclick="setFont('sans')">Sans (system)</button>
-        <button onclick="setFont('serif')">Serif</button>
-        <button onclick="setFont('mono')">Mono</button>
-      </div>
-    </div>
-
-    <div class="icon-btn" onclick="toggleDropdown(this, event)" title="Download">
-      <i class="fas fa-download"></i>
-      <div class="dropdown">
-        <div class="section-title">Resume</div>
-        <button onclick="downloadHTML('resume', 'Enab_Kholif_Resume.html')">Download HTML</button>
-        <button onclick="downloadDOC('resume', 'Enab_Kholif_Resume.docx')">Download DOCX</button>
-        <button onclick="downloadPDF('resume', 'Enab_Kholif_Resume.pdf')">Download PDF</button>
-
-        <div class="section-title" style="margin-top:6px;">Cover Letter</div>
-        <button onclick="downloadHTML('cover-letter', 'Enab_Kholif_CoverLetter.html')">Download HTML</button>
-        <button onclick="downloadDOC('cover-letter', 'Enab_Kholif_CoverLetter.docx')">Download DOCX</button>
-        <button onclick="downloadPDF('cover-letter', 'Enab_Kholif_CoverLetter.pdf')">Download PDF</button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Page -->
-  <div class="page">
-    <!-- Header -->
-    <div class="header">
-      <div class="avatar">EK</div>
-
-      <div class="profile-meta">
-        <h1>Enab Kholif</h1>
-        <p class="muted">Aspiring Full Stack Developer | Java Developer</p>
-        <div class="contact-row">
-          <div class="contact-item"><i class="fas fa-map-marker-alt"></i><span> Dortmund, Germany</span></div>
-          <div class="contact-item"><i class="fas fa-phone"></i><span>+49 (152) 1363-3281</span></div>
-          <div class="contact-item"><i class="fas fa-envelope"></i><span>enab.kholif@gmail.com</span></div>
-         <div class="contact-item"><i class="fas fa-globe"></i><span>www.enabkholif.com</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="layout">
-      <!-- LEFT column -->
-      <div>
-        <!-- Contact / Quick -->
-        <div class="card">
-          <h2>Contact Info</h2>
-          <p class="muted">Reachable & available for remote or on-site opportunities.</p>
-          <div style="margin-top:10px;">
-            <div class="muted"><i class="fas fa-map-marker-alt"></i> Dortmund, Germany</div>
-            <div class="muted"><i class="fas fa-phone"></i> +49 (152) 1363-3281</div>
-            <div class="muted"><i class="fas fa-envelope"></i> enab.kholif@gmail.com</div>
-            <div class="muted"><i class="fab fa-linkedin"></i> linkedin.com/in/enabkholif</div>
-            <div class="muted"><i class="fab fa-github"></i> github.com/enabkholif</div>
-          </div>
-        </div>
-
-        <!-- Technical Skills -->
-        <div class="card" aria-labelledby="technical-skills">
-          <h2 id="technical-skills">Technical Skills</h2>
-
-          <h3>Programming Languages</h3>
-          <div class="skills">
-            <div class="chip">Java SE</div>
-            <div class="chip">Java EE</div>
-            <div class="chip">C#</div>
-            <div class="chip">JavaScript</div>
-          </div>
-
-          <h3 style="margin-top:12px">Frameworks & Libraries</h3>
-          <div class="skills">
-            <div class="chip">Spring Boot</div>
-            <div class="chip">Thymeleaf</div>
-            <div class="chip">jQuery</div>
-          </div>
-
-          <h3 style="margin-top:12px">Web & Tools</h3>
-          <div class="skills" style="margin-top:8px;">
-            <div class="chip">HTML</div>
-            <div class="chip">CSS</div>
-            <div class="chip">Docker</div>
-            <div class="chip">Jenkins</div>
-            <div class="chip">Git</div>
-          </div>
-
-          <div class="divider"></div>
-          <h3>Technical Aptitude</h3>
-          <p class="muted">High technical competency (90%). Rapid learner with strong visual comprehension of systems and code structure.</p>
-        </div>
-
-        <!-- Languages -->
-        <div class="card">
-          <h2>Languages</h2>
-          <ul>
-            <li class="icon-li"><i class="fas fa-language"></i> English — Professional Proficiency</li>
-            <li class="icon-li"><i class="fas fa-language"></i> Arabic — Native</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- RIGHT column (main) -->
-      <div>
-        <!-- Resume main (this whole block has id=resume for downloads) -->
-        <div id="resume">
-          <div class="card">
-            <h2>Professional Summary</h2>
-            <p>
-              Aspiring Full Stack Developer | Java Developer with a strong foundation in problem-solving, analytical thinking, and teamwork, bolstered by over 9 years of proven experience in accounting, office management, and customer service.
-              A highly adaptable and self-directed learner, as evidenced by a superior technical competency score (90%) and a strong internal drive for academic and professional growth.
-              Excels in independent, focused work environments (Solitary learning style) and quickly comprehends new concepts through visual aids and diagrams (Visual learning style).
-              Effective at mentoring, coordinating within multicultural teams, and proactively seeking help to ensure success.
-            </p>
-            <p class="muted"><strong>Key strengths:</strong> Rapid learning, analytical problem solving, visual comprehension, leadership, teamwork, attention to detail.</p>
-          </div>
-
-          <div class="card">
-            <h2>Key Strengths & Skills</h2>
-
-            <h3>Technical Potential & Learning Aptitude</h3>
-            <ul>
-              <li class="icon-li"><i class="fas fa-bolt"></i> <strong>Rapid Learner:</strong> Adapts quickly to new tools and languages.</li>
-              <li class="icon-li"><i class="fas fa-cogs"></i> <strong>Analytical Problem Solver:</strong> Systematic approach to debugging and design.</li>
-              <li class="icon-li"><i class="fas fa-user-check"></i> <strong>Independent & Focused:</strong> Strong productivity when working autonomously (Solitary learner).</li>
-              <li class="icon-li"><i class="fas fa-eye"></i> <strong>Visual Comprehension:</strong> Learns effectively with diagrams, flowcharts and architecture maps.</li>
-            </ul>
-
-            <h3>Professional Soft Skills</h3>
-            <ul>
-              <li class="icon-li"><i class="fas fa-users"></i> Teamwork & Collaboration</li>
-              <li class="icon-li"><i class="fas fa-user-tie"></i> Leadership & Mentoring</li>
-              <li class="icon-li"><i class="fas fa-comments"></i> Communication & Professionalism</li>
-              <li class="icon-li"><i class="fas fa-tasks"></i> Organization & Attention to Detail</li>
-              <li class="icon-li"><i class="fas fa-clock"></i> Time Management & Low Procrastination</li>
-              <li class="icon-li"><i class="fas fa-random"></i> Adaptability & Self-Direction</li>
-              <li class="icon-li"><i class="fas fa-globe"></i> Respect for Diverse Cultures and Ages</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h2>Relevant Professional Experience</h2>
-            <div class="timeline">
-              <div class="item">
-                <h3>Field Service Technician — Bell Canada</h3>
-                <div class="date">Feb 2015 — 2022 | Toronto</div>
-                <ul>
-                  <li>Mentored new hires and supported managers in team coordination, enhancing group performance and knowledge sharing.</li>
-                  <li>Interacted professionally with a diverse client base, demonstrating strong verbal communication and customer service skills.</li>
-                  <li>Analyzed and resolved technical issues efficiently, utilizing a methodical and logical approach to problem-solving.</li>
-                  <li>Recognized as a top-performing technician in the region for consistent reliability and quality of work.</li>
-                </ul>
-              </div>
-
-              <div class="item">
-                <h3>Office Manager / Accounting Coordinator — Speed Transport</h3>
-                <div class="date">2006 — 2013 | Alexandria, Egypt</div>
-                <ul>
-                  <li>Coordinated with clients and team members to ensure project satisfaction and seamless workflow.</li>
-                  <li>Managed the complete document life cycle, emphasizing meticulous attention to detail and systematic organization.</li>
-                  <li>Oversaw financial reporting and auditing preparation, requiring high accuracy and analytical review.</li>
-                </ul>
-              </div>
-
-              <div class="item">
-                <h3>Accounting Clerk — MTS Logistics</h3>
-                <div class="date">2001 — 2005 | Alexandria, Egypt</div>
-                <ul>
-                  <li>Maintained highly organized and accurate financial records and filing systems.</li>
-                  <li>Assisted senior accountants with data entry and reconciliation tasks, demonstrating reliability and a keen eye for detail.</li>
-                </ul>
-              </div>
+    <div class="container">
+        <header>
+            <h1>Interactive Resume</h1>
+            <div class="controls">
+                <select class="theme-selector" id="themeSelector">
+                    <option value="default">Blue Theme</option>
+                    <option value="dark">Dark Theme</option>
+                    <option value="warm">Warm Theme</option>
+                </select>
+                <button class="download-btn" id="downloadPdf">
+                    <span>Download PDF</span>
+                </button>
+                <button class="download-btn" id="downloadDoc">
+                    <span>Download DOC</span>
+                </button>
             </div>
-          </div>
+        </header>
 
-          <div class="card">
-            <h2>Education & Training</h2>
-            <div class="timeline">
-              <div class="item">
-                <h3>Bachelor of Science in Accounting</h3>
-                <div class="date">2003 — Alexandria University, Egypt</div>
-              </div>
-
-              <div class="item">
-                <h3>Technical Training & Online Courses</h3>
-                <ul>
-                  <li>Java SE & Java EE</li>
-                  <li>Spring Boot & Thymeleaf</li>
-                  <li>DevOps: Docker, Jenkins, Git</li>
-                  <li>Web Development: HTML, CSS, JavaScript, jQuery</li>
-                  <li>C# Programming</li>
-                </ul>
-              </div>
-
-              <div class="item">
-                <h3>SmarterMeasure Learning Readiness Assessment</h3>
-                <div class="date">2020</div>
-                <p class="muted">Scored in the top percentiles — Technical Competency (90%), Life Factors (83%), Personal Attributes (81%).</p>
-              </div>
+        <div class="resume" id="resumeContent">
+            <div class="profile-section">
+                <h1 class="name">Enab Kholif</h1>
+                <div class="title">Full Stack Developer | Java Spring Boot Specialist</div>
+                <div class="contact-info">
+                    <div class="contact-item">📍 Dortmund, Germany</div>
+                    <div class="contact-item">📞 +49 (152) 1363-3281</div>
+                    <div class="contact-item">✉️ enab.kholif@gmail.com</div>
+                    <div class="contact-item">🌐 www.enabkholif.com</div>
+                </div>
             </div>
-          </div>
 
-          <div class="card">
-            <h2>Additional Training & Development</h2>
-            <ul>
-              <li>Working Capital Management & Capital Budgeting — American University, Alexandria, 2007</li>
-              <li>Audit & Financial Accounting (CPA material) — Alexandria University, 2004</li>
-              <li>ELT English Accounting Program — Toronto, 2014</li>
-            </ul>
-          </div>
+            <div class="content">
+                <div class="left-column">
+                    <div class="section">
+                        <h2 class="section-title">Professional Summary</h2>
+                        <p>Enthusiastic Full Stack Developer focused on creating innovative software solutions, specializing in Java and Spring Boot technologies. Combines recent technical training with practical experience in technical work environments that have developed strong problem-solving skills and attention to detail.</p>
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title">Technical Skills</h2>
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h4>Programming Languages</h4>
+                                <ul class="skill-list">
+                                    <li>Java SE/EE</li>
+                                    <li>JavaScript</li>
+                                    <li>C#</li>
+                                    <li>SQL</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Frameworks & Libraries</h4>
+                                <ul class="skill-list">
+                                    <li>Spring Boot</li>
+                                    <li>Thymeleaf</li>
+                                    <li>jQuery</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Development Tools</h4>
+                                <ul class="skill-list">
+                                    <li>Docker</li>
+                                    <li>Jenkins</li>
+                                    <li>Git</li>
+                                    <li>HTML5/CSS3</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Additional Skills</h4>
+                                <ul class="skill-list">
+                                    <li>Complex Problem Solving</li>
+                                    <li>Teamwork</li>
+                                    <li>Supervision & Training</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title">Education & Training</h2>
+                        <div class="experience-item">
+                            <div class="item-header">
+                                <div class="item-title">Bachelor of Science in Accounting</div>
+                            </div>
+                            <div class="item-subtitle">Alexandria University, Egypt</div>
+                        </div>
+                        
+                        <div class="experience-item">
+                            <div class="item-header">
+                                <div class="item-title">Technical Training Programs</div>
+                            </div>
+                            <ul class="item-details">
+                                <li>Java SE/EE Application Development</li>
+                                <li>DevOps Fundamentals: Docker, Jenkins, Git</li>
+                                <li>Full Stack Web Development: HTML, CSS, JavaScript</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-column">
+                    <div class="section">
+                        <h2 class="section-title">Professional Experience</h2>
+                        <div class="experience-item">
+                            <div class="item-header">
+                                <div class="item-title">Field Service Technician</div>
+                                <div class="item-date">Feb 2015 — 2022</div>
+                            </div>
+                            <div class="item-subtitle">Bell Canada | Toronto, Canada</div>
+                            <ul class="item-details">
+                                <li>Trained and mentored new technicians, improving team efficiency</li>
+                                <li>Consistently achieved high customer satisfaction ratings</li>
+                                <li>Developed analytical methodologies to improve problem-resolution</li>
+                                <li>Recognized as top-performing technician in the region</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title">Technical Projects</h2>
+                        <div class="project-item">
+                            <div class="item-header">
+                                <div class="item-title">E-Commerce Website</div>
+                            </div>
+                            <div class="item-subtitle">Java Spring Boot | Full Stack Project</div>
+                            <p>Comprehensive personal project demonstrating full-stack web development capabilities</p>
+                            <ul class="item-details project-highlights">
+                                <li>Full-stack development using Spring Boot, MVC, Security</li>
+                                <li>Multi-layered architecture design</li>
+                                <li>Advanced authentication and authorization system</li>
+                                <li>MySQL database integration with Hibernate/JPA</li>
+                                <li>Responsive UI design using Thymeleaf, Bootstrap, CSS3</li>
+                                <li>REST APIs development for core system functions</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title">Personal Skills</h2>
+                        <ul class="skill-list">
+                            <li>Quick adaptation to new technologies</li>
+                            <li>Strong analytical problem-solving ability</li>
+                            <li>Effective teamwork and clear communication</li>
+                            <li>Precision and attention to detail</li>
+                            <li>Flexibility in adapting to work requirements</li>
+                        </ul>
+                    </div>
+
+                    <div class="section">
+                        <h2 class="section-title">Languages</h2>
+                        <ul class="skill-list">
+                            <li>Arabic: Native</li>
+                            <li>English: Professional Proficiency</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <p>References available upon request</p>
+            </footer>
         </div>
-
-        <!-- Cover letter (separate block with id=cover-letter) -->
-        <div id="cover-letter" class="card" style="margin-top:20px;">
-          <h2>Cover Letter</h2>
-          <p>Date: <span id="cover-date"></span></p>
-
-          <p>
-            I am Enab Kholif, an aspiring Full Stack Developer and Java Developer with a strong background in problem-solving,
-            analytical thinking, and teamwork. With over nine years of professional experience in accounting, office management,
-            and customer service — combined with focused technical training in Java SE/EE, Spring Boot, DevOps tools (Docker, Jenkins),
-            and web technologies — I bring a unique blend of practical experience and rapid technical learning capability.
-          </p>
-
-          <p>
-            At Bell Canada I mentored new hires, coordinated with managers, and consistently delivered high-quality technical service to customers.
-            Previously, my roles in accounting and office management demanded accuracy, organization, and process improvement — skills I now apply
-            to software development through methodical debugging, attention to detail, and logical system design.
-          </p>
-
-          <p>
-            I excel in solitary and visually-driven learning environments, quickly grasping concepts presented through diagrams and architecture maps.
-            I am fluent in English and Arabic, comfortable mentoring and collaborating inside multicultural teams, and motivated to continue growing
-            professionally in software engineering roles.
-          </p>
-
-          <p>
-            I would welcome the opportunity to discuss how my background, technical aptitude (90% technical competency), and commitment to continuous learning
-            can contribute to your team. Thank you for considering my application — my resume is attached and I look forward to hearing from you.
-          </p>
-
-        </div>
-
-        <footer>
-          © 2025 Enab Kholif — Designed with glassy UI
-        </footer>
-      </div>
     </div>
-  </div>
 
+    <script>
+        // Theme switching functionality
+        const themeSelector = document.getElementById('themeSelector');
+        
+        themeSelector.addEventListener('change', function() {
+            document.body.className = '';
+            if (this.value !== 'default') {
+                document.body.classList.add(`theme-${this.value}`);
+            }
+        });
 
+        // PDF download functionality
+        document.getElementById('downloadPdf').addEventListener('click', function() {
+            const element = document.getElementById('resumeContent');
+            const opt = {
+                margin: 10,
+                filename: 'Enab_Kholif_Resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save();
+        });
+
+        // DOC download functionality (simulated)
+        document.getElementById('downloadDoc').addEventListener('click', function() {
+            alert('DOC download would require server-side processing. For now, please use the PDF option or copy the content manually.');
+        });
+    </script>
 </body>
 </html>
